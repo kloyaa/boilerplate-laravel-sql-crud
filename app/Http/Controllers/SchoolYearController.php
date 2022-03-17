@@ -7,10 +7,10 @@ use App\Models\SchoolYear;
 
 class SchoolYearController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * GET
+     * PATH api/schoolyear
      */
     public function index()
     {
@@ -19,91 +19,64 @@ class SchoolYearController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * POST
+     * PATH api/schoolyear
+     * BODY { sy_name, sy_status }
      */
     public function store(Request $request)
     {
-        $post = new SchoolYear;
-        $post->sy_name = $request->sy_name;
-        $post->sy_status = $request->sy_status;
-        $result = $post->save();
-        if($result){
-            return ["result"=>"Post Added"];
-        }else{
-            return ["result"=>"Post Not Added"];
-        }  
+        $schoolYear = new SchoolYear;
+        $schoolYear->sy_name = $request->sy_name;
+        $schoolYear->sy_status = $request->sy_status;
+
+        if($schoolYear){
+            $schoolYear->save();
+            return ["status"=>"created"];
+        }
+        return ["status"=>"failed"];
     }
 
+
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * GET
+     * PATH api/schoolyear/:id
      */
     public function show($id)
     {
-        $result = SchoolYear::find($id);
-        return $result;  
+        $schoolYear = SchoolYear::find($id);
+        return $schoolYear;  
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * PUT
+     * PATH api/schoolyear/:id
+     * BODY { sem_id, sem_semester, sem_status, sem_numbers}
      */
     public function update(Request $request, $id)
     {
-        $post = SchoolYear::find($id);
-        $post->sy_name = $request->sy_name;
-        $post->description = $request->description;
-        $result = $post->save();
-        if ($result) {
-            return ["result"=>"Post Updated"];
-        } else {
-            return ["result"=>"Post Not Updated"];
-        } 
+        $schoolYear = SchoolYear::find($id);
+        if (!$schoolYear) 
+            return ["status"=>"failed"];
+        
+        $schoolYear->sy_name = $request->sy_name;
+        $schoolYear->sy_status = $request->sy_status;
+        $schoolYear->save();
+
+        return ["status"=>"updated"];
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * DELETE
+     * PATH api/schoolyear/:id
      */
     public function destroy($id)
     {
-        $post = SchoolYear::find($id);
-        $result = $post->delete();
-        if($result){
-            return ["result"=>"Post is deleted"];
-        }else{
-            return ["result"=>"Post Not deleted"];
-        }
+        $schoolYear = SchoolYear::find($id);
+        if(!$schoolYear)
+            return ["status"=>"failed"];
+                   
+        $schoolYear->delete();
+
+        return ["status"=>"deleted"];
     }
 }

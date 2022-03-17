@@ -7,103 +7,77 @@ use App\Models\Department;
 
 class DepartmentsController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * GET
+     * PATH api/department
      */
     public function index()
     {
-        $result = Department::all();
-        return $result;
+        $department = Department::all();
+        return $department;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        
-    }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * POST
+     * PATH api/department
+     * BODY { name, shortName}
      */
     public function store(Request $request)
     {
-        $post = new Department;
-        $post->name = $request->name;
-        $post->shortName = $request->shortName;
-        $result = $post->save();
+        $department = new Department;
+        $department->name = $request->name;
+        $department->shortName = $request->shortName;
+        $result = $department->save();
+
         if($result){
-            return ["result"=>"Post Added"];
-        }else{
-            return ["result"=>"Post Not Added"];
-        }   
+            return ["status"=>"created"];
+        }
+        return ["status"=>"failed"];
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * GET
+     * PATH api/department/:id
      */
     public function show($id)
     {
-        $result = Department::find($id);
-        return $result;  
+        $department = Department::find($id);
+        return $department;  
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * PUT
+     * PATH api/department/:id
+     * BODY { name, shortName }
      */
     public function update(Request $request, $id)
     {
-        $post = Department::find($id);
-        $post->name = $request->name;
-        $post->shortName = $request->shortName;
-        $result = $post->save();
-        if ($result) {
-            return ["result"=>"Post Updated"];
-        } else {
-            return ["result"=>"Post Not Updated"];
-        }
+        $department = Department::find($id);
+        if (!$department) 
+            return ["status"=>"failed"];
+        
+        $department->name = $request->name;
+        $department->shortName = $request->shortName;
+        $department->save();
+     
+        return ["status"=>"updated"];
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * DELETE
+     * PATH api/department/:id
      */
     public function destroy($id)
     {
-        $post = Department::find($id);
-        $result = $post->delete();
-        if($result){
-            return ["result"=>"Post is deleted"];
-        }else{
-            return ["result"=>"Post Not deleted"];
+        $department = Department::find($id);
+        if(!$department){
+            return ["status"=>"failed"];
         }
+
+        $department->delete();
+
+        return ["status"=>"deleted"];
     }
 }

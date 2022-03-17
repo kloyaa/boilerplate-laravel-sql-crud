@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('course_majors', function (Blueprint $table) {
             $table->id();
+            $table->string('majorId');
             $table->string('courseId');
             $table->text('majorName');
             $table->timestamps();

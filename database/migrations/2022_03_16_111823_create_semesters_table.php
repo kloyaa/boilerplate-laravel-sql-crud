@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_apis', function (Blueprint $table) {
+        Schema::create('semesters', function (Blueprint $table) {
             $table->id();
-            $table->text('userName');
-            $table->text('password');
-            $table->text('fullName');
-            $table->text('courseId');
-            $table->text('userLevel');
+            $table->text('sem_id');
+            $table->text('sem_semester');
+            $table->text('sem_status');
+            $table->text('sem_numbers');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_apis');
+        Schema::dropIfExists('semesters');
     }
 };

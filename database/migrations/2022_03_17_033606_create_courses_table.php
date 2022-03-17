@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('year_level_apis', function (Blueprint $table) {
+        Schema::create('courses', function (Blueprint $table) {
             $table->id();
-            $table->text('yrLvl_Id');
-            $table->text('yrLvl_name');
-            $table->text('yrLvl_number');
+            $table->string('courseName');
+            $table->text('shortName');
+            $table->text('departmentId');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('year_level_apis');
+        Schema::dropIfExists('courses');
     }
 };
