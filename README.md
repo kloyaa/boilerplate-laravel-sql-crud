@@ -19,9 +19,8 @@
     php artisan server
 </pre>
 
-<hr/>
 
-Created by Kolya Nikolai Madridano
+Created by Kolya Nikolai Madridano<br/>
 madridano.kolya@gmail.com
 
 
